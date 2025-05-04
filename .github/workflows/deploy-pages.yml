@@ -26,7 +26,6 @@ jobs:
 
       - name: Build @iocium/favicon-fetcher
         run: |
-          npm run build
           npm run build:rollup
 
       - name: Build docs
@@ -34,7 +33,8 @@ jobs:
 
       - name: Copy demo to docs root
         run: |
-          cp -r dist docs/
+          mkdir docs/js
+          cp -r dist/bundle* docs/js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
