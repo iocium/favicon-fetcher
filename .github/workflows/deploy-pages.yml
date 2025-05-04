@@ -27,11 +27,6 @@ jobs:
       - name: Build docs
         run: npm run docs
 
-      - name: Copy demo to docs root
-        run: |
-          cp -r docs/index.html docs/apidocs dist/
-          cp -r dist docs/
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
