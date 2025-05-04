@@ -16,7 +16,8 @@
     "build": "tsc",
     "test": "jest",
     "test:live": "LIVE_TEST=true jest",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "changelog": "auto-changelog -p"
   },
   "keywords": [
     "favicon",
@@ -34,6 +35,7 @@
     "msw": "^2.7.5",
     "ts-jest": "^29.1.1",
     "typedoc": "^0.28.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "auto-changelog": "^2.4.0"
   }
 }
