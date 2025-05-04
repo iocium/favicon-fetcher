@@ -24,7 +24,8 @@ export class FaviconFetcher {
     yandex: (hostname) => `https://favicon.yandex.net/favicon/${hostname}`,
     fastmail: (hostname) => `https://www.fastmailcdn.com/avatar/${hostname}`,
     iconHorse: (hostname) => `https://icon.horse/icon/${hostname}`,
-    bimi: (_) => ''
+    nextdns: (hostname) => `https://favicons.nextdns.io/${hostname}@2x.png`,
+    bimi: (_) => "",
   };
 
   public async fetchFavicon(service: Service = 'google'): Promise<FaviconResult> {

@@ -49,5 +49,13 @@ describe('FaviconFetcher (mocked)', () => {
     expect(result.contentType).toBe('image/png');
     expect(result.content.byteLength).toBeGreaterThan(0);
   });
+  it('successfully fetches mocked favicon from nextdns', async () => {
+    const fetcher = new FaviconFetcher('temu.com');
+    const result = await fetcher.fetchFavicon('nextdns');
+
+    expect(result.status).toBe(200);
+    expect(result.contentType).toBe('image/png');
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  });
 
 });

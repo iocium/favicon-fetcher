@@ -34,8 +34,10 @@ console.log(result.status, result.contentType);
 - Google
 - DuckDuckGo
 - Bitwarden
+- Yandex
 - Fastmail
-- IconHorse (Pro support via X-API-Key)
+- icon.horse (Pro support via X-API-Key)
+- NextDNS
 - BIMI (via DNS TXT record lookup)
 
 ## Testing
