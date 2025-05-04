@@ -25,6 +25,22 @@ describe('FaviconFetcher (mocked)', () => {
     expect(result.contentType).toBe('image/png');
     expect(result.content.byteLength).toBeGreaterThan(0);
   });
+  it('successfully fetches mocked favicon from yandex', async () => {
+    const fetcher = new FaviconFetcher('cloudflare.com');
+    const result = await fetcher.fetchFavicon('yandex');
+
+    expect(result.status).toBe(200);
+    expect(result.contentType).toBe('image/png');
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  });
+  it('successfully fetches mocked favicon from fastmail', async () => {
+    const fetcher = new FaviconFetcher('joosup.com');
+    const result = await fetcher.fetchFavicon('fastmail');
+
+    expect(result.status).toBe(200);
+    expect(result.contentType).toBe('image/png');
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  });
   it('successfully fetches mocked favicon from icon.horse', async () => {
     const fetcher = new FaviconFetcher('github.com');
     const result = await fetcher.fetchFavicon('iconHorse');

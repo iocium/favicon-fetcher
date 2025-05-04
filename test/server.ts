@@ -27,6 +27,18 @@ export const server = setupServer(
       headers: { 'Content-Type': 'image/png' }
     });
   }),
+  http.get('https://favicon.yandex.net/favicon/cloudflare.com', ({ request }) => {
+    return new Response(new ArrayBuffer(10), {
+      status: 200,
+      headers: { 'Content-Type': 'image/png' }
+    });
+  }),
+  http.get('https://www.fastmailcdn.com/avatar/joosup.com', ({ request }) => {
+    return new Response(new ArrayBuffer(10), {
+      status: 200,
+      headers: { 'Content-Type': 'image/png' }
+    });
+  }),
   http.get('https://icon.horse/icon/github.com', () => {
     return new Response(new ArrayBuffer(10), {
       status: 200,
