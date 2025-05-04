@@ -53,7 +53,6 @@ export class FaviconFetcher {
    * @returns A FaviconResult containing the image, status, and metadata.
    * @throws If the fetch fails or BIMI DNS record is missing/invalid.
    */
-  /* istanbul ignore next */
   public async fetchFavicon(
     service: Service = "google"
   ): Promise<FaviconResult> {
