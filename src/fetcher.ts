@@ -28,15 +28,25 @@ export class FaviconFetcher {
     bimi: (_) => "",
   };
 
-  public async fetchFavicon(service: Service = 'google'): Promise<FaviconResult> {
-    if (service === 'bimi') {
+  /**
+   * Fetches the favicon or BIMI logo for the configured hostname using the specified service.
+   *
+   * @param service The provider to use (default is 'google').
+   * @returns A FaviconResult containing the image, status, and metadata.
+   * @throws If the fetch fails or BIMI DNS record is missing/invalid.
+   */
+  public async fetchFavicon(
+    service: Service = "google"
+  ): Promise<FaviconResult> {
+    if (service === "bimi") {
+      const dohUrl = this.options?.dohServerUrl || 'https://cloudflare-dns.com/dns-query';
       const bimiDomain = `default._bimi.${this.hostname}`;
-      const dnsUrl = `https://cloudflare-dns.com/dns-query?name=${bimiDomain}&type=TXT`;
+      const dnsUrl = `${dohUrl}?name=${bimiDomain}&type=TXT`;
 
       const dnsResp = await fetch(dnsUrl, {
         headers: {
-          'Accept': 'application/dns-json'
-        }
+          Accept: "application/dns-json",
+        },
       });
 
       if (!dnsResp.ok) {
