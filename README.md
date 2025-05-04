@@ -1,5 +1,6 @@
 # @iocium/favicon-fetcher
 
+[![build](https://github.com/iocium/favicon-fetcher/actions/workflows/test.yml/badge.svg)](https://github.com/iocium/favicon-fetcher/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/iocium/favicon-fetcher/branch/main/graph/badge.svg)](https://codecov.io/gh/iocium/favicon-fetcher)
 
 A simple TypeScript utility for fetching favicons and BIMI logos from major providers, compatible with Cloudflare Workers, modern browsers, and Node.js.
