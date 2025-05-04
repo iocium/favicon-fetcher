@@ -2,6 +2,39 @@ import { FaviconFetcher } from './fetcher';
 
 describe('FaviconFetcher (mocked)', () => {
   /**
+   * REQUEST INTEGRITY
+   */
+  it('enforces iconHorseApiKey over headers.X-API-Key', async () => {
+    const mockFetch = jest.fn(() =>
+      Promise.resolve(new Response(new ArrayBuffer(1), {
+        status: 200,
+        headers: { 'Content-Type': 'image/png' }
+      }))
+    );
+  
+    global.fetch = mockFetch as jest.Mock;
+  
+    const fetcher = new FaviconFetcher('example.com', {
+      iconHorseApiKey: 'REAL_KEY',
+      headers: {
+        'User-Agent': 'TestAgent',
+        'X-API-Key': 'BAD_HEADER_SHOULD_BE_OVERRIDDEN'
+      }
+    });
+  
+    await fetcher.fetchFavicon('iconHorse');
+  
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://icon.horse/icon/example.com',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'User-Agent': 'TestAgent',
+          'X-API-Key': 'REAL_KEY'  // this must override the user-provided one
+        })
+      })
+    );
+  });  
+  /**
    * SERVICE SUCCESS
    */
   it('successfully fetches mocked favicon from google', async () => {
