@@ -2,5 +2,6 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  coverageDirectory: "coverage",
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts']
 };
