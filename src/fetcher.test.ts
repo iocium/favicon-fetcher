@@ -1,6 +1,9 @@
 import { FaviconFetcher } from './fetcher';
 
 describe('FaviconFetcher (mocked)', () => {
+  /**
+   * SERVICE SUCCESS
+   */
   it('successfully fetches mocked favicon from google', async () => {
     const fetcher = new FaviconFetcher('bbc.co.uk');
     const result = await fetcher.fetchFavicon('google');
@@ -57,6 +60,20 @@ describe('FaviconFetcher (mocked)', () => {
     expect(result.contentType).toBe('image/png');
     expect(result.content.byteLength).toBeGreaterThan(0);
   });
+  /**
+   * SERVICE FAILURE
+   */
+  it('throws error if favicon fetch fails', async () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve(new Response('Not Found', { status: 404, statusText: 'Not Found' }));
+    }) as jest.Mock;
+  
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('iconHorse')).rejects.toThrow('Failed to fetch favicon from iconHorse');
+  });  
+  /**
+   * BIMI
+   */
   it('successfully fetches BIMI logo using default DoH resolver', async () => {
     const dummySvg = '<svg></svg>';
     const dummyArrayBuffer = new TextEncoder().encode(dummySvg).buffer;
