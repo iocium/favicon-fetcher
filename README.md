@@ -1,7 +1,12 @@
 # @iocium/favicon-fetcher
 
+[![npm](https://img.shields.io/npm/v/@iocium/favicon-fetcher)](https://www.npmjs.com/package/@iocium/favicon-fetcher)
 [![build](https://github.com/iocium/favicon-fetcher/actions/workflows/test.yml/badge.svg)](https://github.com/iocium/favicon-fetcher/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/iocium/favicon-fetcher/branch/main/graph/badge.svg)](https://codecov.io/gh/iocium/favicon-fetcher)
+[![npm downloads](https://img.shields.io/npm/dm/@iocium/favicon-fetcher)](https://www.npmjs.com/package/@iocium/favicon-fetcher)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@iocium/favicon-fetcher)](https://bundlephobia.com/package/@iocium/favicon-fetcher)
+[![types](https://img.shields.io/npm/types/@iocium/favicon-fetcher)](https://www.npmjs.com/package/@iocium/favicon-fetcher)
+[![license](https://img.shields.io/npm/l/@iocium/favicon-fetcher)](https://github.com/iocium/favicon-fetcher/blob/main/LICENSE)
 
 A simple TypeScript utility for fetching favicons and BIMI logos from major providers, compatible with Cloudflare Workers, modern browsers, and Node.js.
 
