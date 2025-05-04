@@ -1,4 +1,4 @@
-export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'iconHorse' | 'bimi';
+export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'iconHorse' | 'bimi';
 
 export interface FaviconResult {
   url: string;
@@ -22,6 +22,7 @@ export class FaviconFetcher {
     duckduckgo: (hostname) => `https://icons.duckduckgo.com/ip3/${hostname}.ico`,
     bitwarden: (hostname) => `https://icons.bitwarden.net/${hostname}/icon.png`,
     yandex: (hostname) => `https://favicon.yandex.net/favicon/${hostname}`,
+    fastmail: (hostname) => `https://www.fastmailcdn.com/avatar/${hostname}`,
     iconHorse: (hostname) => `https://icon.horse/icon/${hostname}`,
     bimi: (_) => ''
   };
