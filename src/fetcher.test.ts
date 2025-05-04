@@ -150,4 +150,16 @@ describe('FaviconFetcher (mocked)', () => {
     const fetcher = new FaviconFetcher('example.com');
     await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('Failed to fetch BIMI logo');
   });
+  it('throws error if BIMI DNS query fails', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response('Server error', { status: 503, statusText: 'Service Unavailable' }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+  
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI DNS query failed');
+  });
+  
 });
