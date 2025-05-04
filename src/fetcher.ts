@@ -1,5 +1,8 @@
 export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'iconHorse' | 'bimi';
 
+/**
+ * Result returned by fetchFavicon including content and metadata.
+ */
 export interface FaviconResult {
   url: string;
   contentType: string | null;
