@@ -1,6 +1,15 @@
 import { setupServer } from 'msw/node';
 import { http } from 'msw';
 
+const bimiDnsResponse = {
+  Answer: [
+    {
+      data: '"v=BIMI1; l=https://bimi.example.org/logo.svg;"'
+    }
+  ]
+};
+const bimiSvg = `<svg xmlns="http://www.w3.org/2000/svg"><text>BIMI</text></svg>`;
+
 export const server = setupServer(
   http.get('https://www.google.com/s2/favicons', ({ request }) => {
     const url = new URL(request.url);
@@ -45,5 +54,25 @@ export const server = setupServer(
       headers: { 'Content-Type': 'image/png' }
     });
   }),
-
+  http.get('https://cloudflare-dns.com/dns-query', ({ request }) => {
+    const url = new URL(request.url);
+    if (url.searchParams.get('name')?.startsWith('default._bimi.')) {
+      return Response.json(bimiDnsResponse);
+    }
+    return Response.error(); // fallback
+  }),
+  http.get('https://dns.google/dns-query', ({ request }) => {
+    const url = new URL(request.url);
+    if (url.searchParams.get('name')?.startsWith('default._bimi.')) {
+      return Response.json(bimiDnsResponse);
+    }
+    return Response.error();
+  }),
+  http.get('https://bimi.example.org/logo.svg', () =>
+    new Response(bimiSvg, {
+      headers: {
+        'Content-Type': 'image/svg+xml'
+      }
+    })
+  )
 );

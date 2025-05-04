@@ -2,6 +2,7 @@ import { FaviconFetcher } from './fetcher';
 
 const liveTest = process.env.LIVE_TEST === 'true';
 
+
 (liveTest ? describe : describe.skip)('FaviconFetcher (live)', () => {
   it('fetches real favicon from google', async () => {
     const fetcher = new FaviconFetcher('bbc.co.uk');
@@ -59,4 +60,24 @@ const liveTest = process.env.LIVE_TEST === 'true';
     expect(result.contentType).toMatch(/image/);
     expect(result.content.byteLength).toBeGreaterThan(0);
   }, 10000);
+  it('fetches a real BIMI logo from paypal.com using default DoH', async () => {
+    const fetcher = new FaviconFetcher('paypal.com');
+    const result = await fetcher.fetchFavicon('bimi');
+  
+    expect(result.url).toMatch(/^https:\/\/.*\.svg$/);
+    expect(result.status).toBe(200);
+    expect(result.contentType).toContain('image/svg+xml');
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  });
+  it('fetches a real BIMI logo using custom DoH resolver', async () => {
+    const fetcher = new FaviconFetcher('paypal.com', {
+      dohServerUrl: 'https://dns.google/dns-query'
+    });
+    const result = await fetcher.fetchFavicon('bimi');
+  
+    expect(result.url).toMatch(/^https:\/\/.*\.svg$/);
+    expect(result.status).toBe(200);
+    expect(result.contentType).toContain('image/svg+xml');
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  });    
 });
