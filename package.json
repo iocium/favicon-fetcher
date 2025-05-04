@@ -1,6 +1,6 @@
 {
   "name": "@iocium/favicon-fetcher",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Favicon and BIMI logo fetcher for Cloudflare Workers and browser-compatible environments",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
