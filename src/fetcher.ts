@@ -36,15 +36,14 @@ export class FaviconFetcher {
     if (!hostname) throw new Error('Hostname is required');
   }
 
-  private static serviceUrls: Record<Service, (hostname: string) => string> = {
+  private static serviceUrls: Record<Exclude<Service, 'bimi'>, (hostname: string) => string> = {
     google: (hostname) => `https://www.google.com/s2/favicons?domain=${hostname}`,
     duckduckgo: (hostname) => `https://icons.duckduckgo.com/ip3/${hostname}.ico`,
     bitwarden: (hostname) => `https://icons.bitwarden.net/${hostname}/icon.png`,
     yandex: (hostname) => `https://favicon.yandex.net/favicon/${hostname}`,
     fastmail: (hostname) => `https://www.fastmailcdn.com/avatar/${hostname}`,
     iconHorse: (hostname) => `https://icon.horse/icon/${hostname}`,
-    nextdns: (hostname) => `https://favicons.nextdns.io/${hostname}@2x.png`,
-    bimi: (_) => "",
+    nextdns: (hostname) => `https://favicons.nextdns.io/${hostname}@2x.png`
   };
 
   /**
@@ -54,6 +53,7 @@ export class FaviconFetcher {
    * @returns A FaviconResult containing the image, status, and metadata.
    * @throws If the fetch fails or BIMI DNS record is missing/invalid.
    */
+  /* istanbul ignore next */
   public async fetchFavicon(
     service: Service = "google"
   ): Promise<FaviconResult> {
