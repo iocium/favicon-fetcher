@@ -1,20 +1,36 @@
-export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'iconHorse' | 'bimi';
+export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'nextdns' | 'iconHorse' | 'bimi';
 
 /**
  * Result returned by fetchFavicon including content and metadata.
  */
 export interface FaviconResult {
+  /** Source URL used to fetch the favicon/logo */
   url: string;
+  /** Content-Type of the returned image */
   contentType: string | null;
+  /** Raw image data as an ArrayBuffer */
   content: ArrayBuffer;
+  /** HTTP response status */
   status: number;
 }
 
+/**
+ * FaviconFetcher allows downloading favicons or BIMI logos from a hostname using known services.
+ */
 export class FaviconFetcher {
+  /**
+   * @param hostname The domain name to fetch the favicon/logo for.
+   * @param options Optional configuration including headers, iconHorse API key, and BIMI DNS settings.
+   */
   constructor(
     private hostname: string,
     private options?: {
+      /** API key for icon.horse Pro access (used only when service is 'iconHorse') */
       iconHorseApiKey?: string;
+      /** Optional DNS-over-HTTPS server URL for BIMI lookups (defaults to Cloudflare) */
+      dohServerUrl?: string;
+      /** Optional custom headers to send with fetch (except protected headers like X-API-Key) */
+      headers?: Record<string, string>;
     }
   ) {
     if (!hostname) throw new Error('Hostname is required');
