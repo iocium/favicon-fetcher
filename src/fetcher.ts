@@ -86,9 +86,12 @@ export class FaviconFetcher {
     const urlFn = FaviconFetcher.serviceUrls[service];
     const url = urlFn(this.hostname);
 
-    const headers: HeadersInit = {};
-    if (service === 'iconHorse' && this.options?.iconHorseApiKey) {
-      headers['X-API-Key'] = this.options.iconHorseApiKey;
+    const headers: Record<string, string> = {
+      ...(this.options?.headers || {})
+    };
+    // Enforce icon.horse API key protection
+    if (service === "iconHorse" && this.options?.iconHorseApiKey) {
+      headers["X-API-Key"] = this.options.iconHorseApiKey;
     }
 
     const response = await fetch(url, { headers });
