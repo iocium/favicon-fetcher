@@ -1,9 +1,51 @@
 import { FaviconFetcher, Service } from './fetcher';
 
 describe('FaviconFetcher (mocked)', () => {
+  /**
+   * BEHAVIOUR
+   */
   it('throws if hostname is missing', () => {
     expect(() => new FaviconFetcher('' as any)).toThrow('Hostname is required');
-  });  
+  });
+  it('prepends CORS proxy URL when useCorsProxy is true', async () => {
+    const mockFetch = jest.fn(() =>
+      Promise.resolve(new Response(new ArrayBuffer(10), {
+        status: 200,
+        headers: { 'Content-Type': 'image/png' }
+      }))
+    );
+    global.fetch = mockFetch as jest.Mock;
+  
+    const fetcher = new FaviconFetcher('github.com', {
+      useCorsProxy: true
+    });
+  
+    await fetcher.fetchFavicon('google');
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringMatching(/^https:\/\/corsproxy\.io\/\?https:\/\/www\.google\.com/),
+      expect.any(Object)
+    );
+  });
+  it('prepends custom CORS proxy URL when useCorsProxy is a string', async () => {
+    const mockFetch = jest.fn(() =>
+      Promise.resolve(new Response(new ArrayBuffer(10), {
+        status: 200,
+        headers: { 'Content-Type': 'image/png' }
+      }))
+    );
+    global.fetch = mockFetch as jest.Mock;
+  
+    const fetcher = new FaviconFetcher('duckduckgo.com', {
+      useCorsProxy: 'https://my-cors-proxy/'
+    });
+  
+    await fetcher.fetchFavicon('duckduckgo');
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringMatching(/^https:\/\/my-cors-proxy\/https:\/\/icons\.duckduckgo\.com/),
+      expect.any(Object)
+    );
+  });
+  
   /**
    * SERVICE SUCCESS
    */

@@ -40,6 +40,21 @@ console.log(result.status, result.contentType);
 - NextDNS
 - BIMI (via DNS TXT record lookup)
 
+## Configuration
+### `useCorsProxy`
+
+Use this option to fetch through a CORS proxy when running in a browser:
+
+```ts
+new FaviconFetcher('github.com', {
+  useCorsProxy: true // uses https://corsproxy.io/?
+});
+
+new FaviconFetcher('github.com', {
+  useCorsProxy: 'https://my-cors-proxy/'
+});
+```
+
 ## Testing
 
 ```bash

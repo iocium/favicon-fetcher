@@ -31,6 +31,8 @@ export class FaviconFetcher {
       dohServerUrl?: string;
       /** Optional custom headers to send with fetch (except protected headers like X-API-Key) */
       headers?: Record<string, string>;
+      /** Optional enable or provide a CORS proxy prefix for browser fetch compatibility */
+      useCorsProxy?: boolean | string;
     }
   ) {
     if (!hostname) throw new Error('Hostname is required');
@@ -100,6 +102,12 @@ export class FaviconFetcher {
 
     const urlFn = FaviconFetcher.serviceUrls[service];
     const url = urlFn(this.hostname);
+    const corsProxy = this.options?.useCorsProxy === true
+    ? 'https://corsproxy.io/?'
+    : typeof this.options?.useCorsProxy === 'string'
+      ? this.options.useCorsProxy
+      : '';
+    const fetchUrl = corsProxy + url;
 
     const headers: Record<string, string> = {
       ...(this.options?.headers || {})
@@ -109,7 +117,7 @@ export class FaviconFetcher {
       headers["X-API-Key"] = this.options.iconHorseApiKey;
     }
 
-    const response = await fetch(url, { headers });
+    const response = await fetch(fetchUrl, { headers });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch favicon from ${service}: ${response.statusText}`);
