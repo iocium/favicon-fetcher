@@ -10,8 +10,10 @@
   <img id="favicon" alt="favicon" />
   <script src="js/bundle.umd.js"></script>
   <script>
-    const fetcher = new FaviconFetcherLib.FaviconFetcher('github.com');
-    fetcher.fetchFavicon('iconHorse').then(result => {
+    const fetcher = new FaviconFetcherLib.FaviconFetcher('github.com', {
+      useCorsProxy: true
+    });
+    fetcher.fetchFavicon('google').then(result => {
       const blob = new Blob([result.content], { type: result.contentType });
       const url = URL.createObjectURL(blob);
       document.getElementById('favicon').src = url;
