@@ -57,7 +57,7 @@ new FaviconFetcher('github.com', {
 
 ### `iconHorseApiKey`
 
-Use this to authenticate with [icon.horse Pro](https://icon.horse/docs).
+Use this to authenticate with [icon.horse Pro](https://icon.horse/pro).
 
 ```ts
 new FaviconFetcher('github.com', {
