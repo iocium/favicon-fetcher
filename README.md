@@ -55,6 +55,42 @@ new FaviconFetcher('github.com', {
 });
 ```
 
+### `iconHorseApiKey`
+
+Use this to authenticate with [icon.horse Pro](https://icon.horse/docs).
+
+```ts
+new FaviconFetcher('github.com', {
+  iconHorseApiKey: 'your-api-key'
+});
+```
+
+This will override any `X-API-Key` passed manually in `headers`.
+
+### `headers`
+
+Set custom headers for fetch requests. Useful for user-agent tagging or auth with custom endpoints:
+
+```ts
+new FaviconFetcher('example.com', {
+  headers: {
+    'User-Agent': 'MyFaviconBot/1.0'
+  }
+});
+```
+
+Note: `X-API-Key` will be overridden if using `iconHorseApiKey`.
+
+### `dohServerUrl`
+
+Override the DNS-over-HTTPS server used for BIMI lookups (default: Cloudflare):
+
+```ts
+new FaviconFetcher('paypal.com', {
+  dohServerUrl: 'https://dns.google/dns-query'
+});
+```
+
 ## Testing
 
 ```bash
