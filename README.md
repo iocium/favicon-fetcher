@@ -91,6 +91,54 @@ new FaviconFetcher('paypal.com', {
 });
 ```
 
+## Advanced Examples
+### 🔹 Fetching a BIMI logo (SVG)
+
+```ts
+const fetcher = new FaviconFetcher('paypal.com');
+const result = await fetcher.fetchFavicon('bimi');
+
+console.log(result.url);         // BIMI logo URL from TXT record
+console.log(result.status);      // 200 if success
+console.log(result.contentType); // image/svg+xml
+console.log(result.content);     // ArrayBuffer (SVG image)
+```
+
+---
+
+### 🔹 Using a custom DoH server for BIMI
+
+By default, BIMI lookups use [Cloudflare's DoH endpoint](https://developers.cloudflare.com/1.1.1.1/dns-over-https/json-format/), but you can override this if you prefer another provider like Google or NextDNS:
+
+```ts
+const fetcher = new FaviconFetcher('paypal.com', {
+  dohServerUrl: 'https://dns.google/dns-query'
+});
+const result = await fetcher.fetchFavicon('bimi');
+```
+
+Supported DoH endpoints:
+- Cloudflare: `https://cloudflare-dns.com/dns-query` (default)
+- Google: `https://dns.google/dns-query`
+- NextDNS: `https://dns.nextdns.io/YOUR_PROFILE_ID`
+
+> ⚠️ Ensure the DoH server supports **application/dns-json** responses (RFC 8484 JSON mode). No validation is performed on this URL — garbage in, garbage out.
+
+---
+
+### 🔹 Combining options: icon.horse Pro, custom headers, and CORS proxy
+
+```ts
+const fetcher = new FaviconFetcher('github.com', {
+  iconHorseApiKey: 'your-real-api-key',
+  useCorsProxy: 'https://my-cors-proxy/',
+  headers: {
+    'User-Agent': 'FaviconFetcherBot/2.0'
+  }
+});
+const result = await fetcher.fetchFavicon('iconHorse');
+```
+
 ## Testing
 
 ```bash
@@ -101,24 +149,3 @@ npm run test:live  # Runs real network integration tests (LIVE_TEST=true)
 ## License
 
 MIT
-
-
-## 🆕 Advanced: BIMI with custom DNS-over-HTTPS (DoH) server
-
-By default, BIMI lookups use [Cloudflare's DoH endpoint](https://developers.cloudflare.com/1.1.1.1/dns-over-https/json-format/), but you can override this if you prefer another provider like Google or NextDNS:
-
-```ts
-const fetcher = new FaviconFetcher('paypal.com', {
-  dohServerUrl: 'https://dns.google/dns-query' // optional
-});
-
-const result = await fetcher.fetchFavicon('bimi');
-console.log(result.url); // typically an HTTPS SVG
-```
-
-Supported DoH endpoints:
-- Cloudflare: `https://cloudflare-dns.com/dns-query` (default)
-- Google: `https://dns.google/dns-query`
-- NextDNS: `https://dns.nextdns.io/YOUR_PROFILE_ID`
-
-> ⚠️ Ensure the DoH server supports **application/dns-json** responses (RFC 8484 JSON mode). No validation is performed on this URL — garbage in, garbage out.
