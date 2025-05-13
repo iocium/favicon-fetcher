@@ -66,6 +66,12 @@ export const server = setupServer(
       headers: { 'Content-Type': 'image/png' }
     });
   }),
+  http.get('https://favicon.im/hey.com', () => {
+    return new Response(new ArrayBuffer(10), {
+      status: 200,
+      headers: { 'Content-Type': 'image/png' }
+    });
+  }),
   http.get('https://cloudflare-dns.com/dns-query', ({ request }) => {
     const url = new URL(request.url);
     if (url.searchParams.get('name')?.startsWith('default._bimi.')) {

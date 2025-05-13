@@ -1,4 +1,4 @@
-export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'nextdns' | 'iconHorse' | 'bimi' | 'iocium' | 'faviconis';
+export type Service = 'google' | 'duckduckgo' | 'bitwarden' | 'yandex' | 'fastmail' | 'nextdns' | 'iconHorse' | 'bimi' | 'iocium' | 'faviconis' | 'faviconim';
 
 /**
  * Result returned by fetchFavicon including content and metadata.
@@ -47,7 +47,8 @@ export class FaviconFetcher {
     iconHorse: (hostname) => `https://icon.horse/icon/${hostname}`,
     nextdns: (hostname) => `https://favicons.nextdns.io/${hostname}@2x.png`,
     iocium: (hostname) => `https://icons.iocium.net/icon/${hostname}`,
-    faviconis: (hostname) => `https://favicon.is/${hostname}`
+    faviconis: (hostname) => `https://favicon.is/${hostname}`,
+    faviconim: (hostname) => `https://favicon.im/${hostname}`
   };
 
   /**

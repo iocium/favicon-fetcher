@@ -40,6 +40,7 @@ console.log(result.status, result.contentType);
 - NextDNS
 - Iocium
 - favicon.is
+- favicon.im
 - BIMI (via DNS TXT record lookup)
 
 ## Configuration

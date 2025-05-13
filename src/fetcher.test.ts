@@ -58,7 +58,8 @@ describe('FaviconFetcher (mocked)', () => {
     'iconHorse',
     'nextdns',
     'iocium',
-    'faviconis'
+    'faviconis',
+    'faviconim'
   ])('fetchFavicon covers serviceUrls[%s]', async (service) => {
     global.fetch = jest.fn(() =>
       Promise.resolve(new Response(new ArrayBuffer(10), {
