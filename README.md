@@ -39,6 +39,7 @@ console.log(result.status, result.contentType);
 - icon.horse (Pro support via X-API-Key)
 - NextDNS
 - Iocium
+- favicon.is
 - BIMI (via DNS TXT record lookup)
 
 ## Configuration
