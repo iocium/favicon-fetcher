@@ -60,6 +60,14 @@ const liveTest = process.env.LIVE_TEST === 'true';
     expect(result.contentType).toMatch(/image/);
     expect(result.content.byteLength).toBeGreaterThan(0);
   }, 10000);
+  it('fetches real favicon from iocium', async () => {
+    const fetcher = new FaviconFetcher('arstechnica.com');
+    const result = await fetcher.fetchFavicon('iocium');
+
+    expect(result.status).toBe(200);
+    expect(result.contentType).toMatch(/image/);
+    expect(result.content.byteLength).toBeGreaterThan(0);
+  }, 10000);
   it('fetches a real BIMI logo from paypal.com using default DoH', async () => {
     const fetcher = new FaviconFetcher('paypal.com');
     const result = await fetcher.fetchFavicon('bimi');

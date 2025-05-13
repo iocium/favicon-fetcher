@@ -38,6 +38,7 @@ console.log(result.status, result.contentType);
 - Fastmail
 - icon.horse (Pro support via X-API-Key)
 - NextDNS
+- Iocium
 - BIMI (via DNS TXT record lookup)
 
 ## Configuration
