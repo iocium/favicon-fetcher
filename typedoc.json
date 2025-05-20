@@ -1,6 +1,6 @@
 {
   "entryPoints": ["src/index.ts"],
-  "out": "docs/apidocs",
+  "out": "docs/api",
   "excludePrivate": true,
   "includeVersion": true,
   "tsconfig": "tsconfig.json"

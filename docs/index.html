@@ -11,7 +11,7 @@
   <script src="js/bundle.umd.js"></script>
   <script>
     const fetcher = new FaviconFetcherLib.FaviconFetcher('github.com', {
-      useCorsProxy: true
+      useCorsProxy: 'https://cors.iocium.workers.dev/?url='
     });
     fetcher.fetchFavicon('google').then(result => {
       const blob = new Blob([result.content], { type: result.contentType });
