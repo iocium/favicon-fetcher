@@ -224,5 +224,80 @@ describe('FaviconFetcher (mocked)', () => {
     const fetcher = new FaviconFetcher('example.com');
     await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI DNS query failed');
   });
+  it('throws error if BIMI logo URL is not HTTPS', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          Answer: [
+            { data: '"v=BIMI1; l=http://example.com/logo.svg;"' }
+          ]
+        }), { status: 200 }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI logo URL must use HTTPS');
+  });
+  it('throws error if BIMI logo URL points to localhost', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          Answer: [
+            { data: '"v=BIMI1; l=https://localhost/logo.svg;"' }
+          ]
+        }), { status: 200 }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI logo URL cannot point to private networks');
+  });
+  it('throws error if BIMI logo URL points to private IP ranges', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          Answer: [
+            { data: '"v=BIMI1; l=https://192.168.1.1/logo.svg;"' }
+          ]
+        }), { status: 200 }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI logo URL cannot point to private networks');
+  });
+  it('throws error if BIMI logo URL contains suspicious characters', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          Answer: [
+            { data: '"v=BIMI1; l=https://example.com/logo<script>.svg;"' }
+          ]
+        }), { status: 200 }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('BIMI logo URL contains invalid characters');
+  });
+  it('throws error if BIMI logo URL has invalid format', async () => {
+    global.fetch = jest.fn((url: RequestInfo) => {
+      if (typeof url === 'string' && url.includes('dns-query')) {
+        return Promise.resolve(new Response(JSON.stringify({
+          Answer: [
+            { data: '"v=BIMI1; l=not-a-valid-url;"' }
+          ]
+        }), { status: 200 }));
+      }
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as jest.Mock;
+
+    const fetcher = new FaviconFetcher('example.com');
+    await expect(fetcher.fetchFavicon('bimi')).rejects.toThrow('Invalid BIMI logo URL format');
+  });
   
 });

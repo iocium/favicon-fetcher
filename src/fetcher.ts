@@ -38,6 +38,36 @@ export class FaviconFetcher {
     if (!hostname) throw new Error('Hostname is required');
   }
 
+  private validateBimiUrl(url: string): void {
+    let parsedUrl: URL;
+    
+    try {
+      parsedUrl = new URL(url);
+    } catch (error) {
+      throw new Error('Invalid BIMI logo URL format');
+    }
+    
+    // Must use HTTPS
+    if (parsedUrl.protocol !== 'https:') {
+      throw new Error('BIMI logo URL must use HTTPS');
+    }
+    
+    // Must not be localhost or private IP ranges
+    const hostname = parsedUrl.hostname.toLowerCase();
+    if (hostname === 'localhost' || 
+        hostname === '127.0.0.1' || 
+        hostname.startsWith('192.168.') ||
+        hostname.startsWith('10.') ||
+        hostname.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./)) {
+      throw new Error('BIMI logo URL cannot point to private networks');
+    }
+    
+    // Must not contain suspicious characters
+    if (url.includes('<') || url.includes('>') || url.includes('"') || url.includes("'")) {
+      throw new Error('BIMI logo URL contains invalid characters');
+    }
+  }
+
   private static serviceUrls: Record<Exclude<Service, 'bimi'>, (hostname: string) => string> = {
     google: (hostname) => `https://www.google.com/s2/favicons?domain=${hostname}`,
     duckduckgo: (hostname) => `https://icons.duckduckgo.com/ip3/${hostname}.ico`,
@@ -87,6 +117,10 @@ export class FaviconFetcher {
       }
 
       const logoUrl = logoUrlMatch[1];
+      
+      // Validate BIMI logo URL for security
+      this.validateBimiUrl(logoUrl);
+      
       const response = await fetch(logoUrl);
 
       if (!response.ok) {
