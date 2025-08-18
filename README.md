@@ -41,6 +41,7 @@ console.log(result.status, result.contentType);
 - Iocium
 - favicon.is
 - favicon.im
+- ControlD (via favicon.controld.com)
 - BIMI (via DNS TXT record lookup)
 
 ## Configuration
